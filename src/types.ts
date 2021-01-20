@@ -2,6 +2,7 @@ export interface Author {
   readonly id: string;
   firstName: string;
   lastName: string;
+  patronym: string;
 }
 
 export interface Book {
