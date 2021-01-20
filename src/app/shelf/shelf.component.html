@@ -1,1 +1,4 @@
-<p>shelf works!</p>
+<app-book
+  *ngFor="let bookData of books"
+  [props]="{ bookData: bookData, selected: false }"
+></app-book>

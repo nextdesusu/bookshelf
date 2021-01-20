@@ -1,1 +1,7 @@
-<p>bookshelf</p>
+<ng-template #loadingTemplate>
+  <h3>loading...</h3>
+</ng-template>
+<ng-template [ngIf]="loaded" [ngIfElse]="loadingTemplate">
+  <app-shelf *ngFor="let shelfBooks of data" [books]="shelfBooks"></app-shelf>
+</ng-template>
+<div></div>

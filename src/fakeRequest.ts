@@ -25,7 +25,7 @@ const randomBook = (author: Author): Book => {
   }
 }
 
-const fakeRequest = () => {
+const fakeRequest = (): Promise<string> => {
   const a1 = randomAuthor();
   const b1 = randomBook(a1);
   const b2 = randomBook(a1);
@@ -36,6 +36,7 @@ const fakeRequest = () => {
     [
       b1, b2, b3
     ],
+    []
   ];
   const request = JSON.stringify(requestSrc);
   return new Promise((res) => {
