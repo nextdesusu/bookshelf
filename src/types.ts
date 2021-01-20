@@ -16,3 +16,7 @@ export interface Book {
 export interface Shelf {
   books: Book[];
 }
+
+export interface bookSelectedEvent {
+  readonly item: Book;
+}

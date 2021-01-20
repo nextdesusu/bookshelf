@@ -1,32 +1,44 @@
 :host {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(1, 56, 5);
-  border: 1px solid black;
   width: 70px;
   height: 250px;
   float: left;
-  margin-right: .1em;
-  box-shadow: 3px 6px 30px black;
+  margin-right: 0.3em;
 }
 
-.book-wrapper {
+:host(.selected) {
+  width: 200px;
+  height: 250px;
+}
+
+.book-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(2, 14, 2);
+  box-shadow: 1px 10px 30px black;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  color: gold;
+}
+
+:host(.details) {
+  width: 250px;
+}
+
+.book-wrapper-unselected {
   transform: rotate(90deg);
 }
 
 .book-title {
-
 }
 .book-author {
-
 }
 
-.book-title, .book-author {
+.book-title,
+.book-author {
   margin: 0;
   padding: 0;
   text-transform: capitalize;
   text-align: center;
   white-space: nowrap;
 }
-
