@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(1, 56, 5);
+  border: 1px solid black;
+  width: 70px;
+  height: 250px;
+  float: left;
+  margin-right: .1em;
+  box-shadow: 3px 6px 30px black;
+}
+
+.book-wrapper {
+  transform: rotate(90deg);
+}
+
+.book-title {
+
+}
+.book-author {
+
+}
+
+.book-title, .book-author {
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+  text-align: center;
+  white-space: nowrap;
+}
+
