@@ -9,6 +9,8 @@ export interface Book {
   readonly id: string;
   author: Author;
   title: string;
+  written: string;
+  pages: number;
 }
 
 export interface Shelf {

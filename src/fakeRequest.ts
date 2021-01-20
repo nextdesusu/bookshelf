@@ -21,6 +21,8 @@ const randomBook = (author: Author): Book => {
   return {
     id: `${id}`,
     title: `book ${id}`,
+    pages: 100,
+    written: "november",
     author,
   }
 }
