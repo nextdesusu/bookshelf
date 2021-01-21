@@ -24,15 +24,19 @@ import { Book, bookSelectedEvent } from "../../types";
   animations: [
     trigger('selectedUnselected', [
       state('unselected', style({
-        width: "70px",
+        width: "100%",
         height: "250px",
+        borderRight: "2px solid rgba(192, 192, 192, 0.658)",
+        borderLeft: "5px solid rgba(192, 192, 192, 0.884)",
       })),
       state('selected', style({
-        width: "200px",
+        width: "270%",
         height: "250px",
+        borderRight: "3px solid rgba(192, 192, 192, 0.658)",
+        borderLeft: "2px solid rgba(192, 192, 192, 0.884)",
       })),
       transition('selected => unselected', [
-        animate('0.1s')
+        animate('0.2s')
       ]),
       transition('unselected => selected', [
         animate('0.5s')

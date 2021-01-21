@@ -1,4 +1,7 @@
 :host {
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 80px);
+  grid-gap: 5px;
 }
