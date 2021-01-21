@@ -1,1 +1,16 @@
-<p>form works!</p>
+<form [formGroup]="formComponent" (ngSubmit)="onSubmit()">
+  <h2>form</h2>
+  <div>
+    <label for="firstName">first name</label>
+    <input formControlName="firstName" name="firstName" />
+  </div>
+  <div>
+    <label for="lastName">last name</label>
+    <input formControlName="lastName" name="lastName" />
+  </div>
+  <div>
+    <label for="patronym">patronym</label>
+    <input formControlName="patronym" name="patronym" />
+  </div>
+  <button type="submit">submit</button>
+</form>

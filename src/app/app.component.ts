@@ -9,8 +9,19 @@ import fakeRequest from "../fakeRequest";
 })
 export class AppComponent implements OnInit {
   public data: Array<Shelf> = [];
+  public get firstBook() {
+    if (!this.loaded) return;
+    return this.data[0][2];
+  }
   public get loaded(): boolean {
     return this.data.length > 0;
+  }
+  public formProps = {
+    title: "test form",
+    fields: [
+      { type: "text", name: "text1" },
+      { type: "text", name: "text2" }
+    ]
   }
   ngOnInit(): void {
     fakeRequest()
