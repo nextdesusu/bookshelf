@@ -13,8 +13,28 @@ const randomAuthor = (): Author => {
   };
 }
 
+const createAuthor = (name: string): Author => {
+  const id = String(authorId());
+  const [firstName, lastName, patronym] = name.split(" ");
+  return { id, firstName, lastName, patronym }
+}
+
 let randomBookId = 0;
 const bookId = () => randomBookId++;
+
+const createBook = (
+  author: Author,
+  title: string,
+  written: string,
+  pages: number,
+  id: string = String(bookId())
+): Book => ({
+  id,
+  author,
+  title,
+  written,
+  pages
+})
 
 const randomBook = (author: Author): Book => {
   const id = bookId();
@@ -28,17 +48,21 @@ const randomBook = (author: Author): Book => {
 }
 
 const fakeRequest = (): Promise<string> => {
-  const a1 = randomAuthor();
-  const b1 = randomBook(a1);
+  const a1 = createAuthor("лев толстой николаевич");
+  const b1 = createBook(a1, "анна каренина", "ноябрь", 100);
   const b2 = randomBook(a1);
 
   const a2 = randomAuthor();
   const b3 = randomBook(a2);
+
+  const a3 = randomAuthor();
+  const b4 = randomBook(a3);
+  const b5 = randomBook(a3);
   const requestSrc = [
     [
       b1, b2, b3
     ],
-    []
+    [b4, b5]
   ];
   const request = JSON.stringify(requestSrc);
   return new Promise((res) => {

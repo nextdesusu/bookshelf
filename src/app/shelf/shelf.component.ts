@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Book, bookSelectedEvent } from "../../types";
+import { Shelf, bookSelectedEvent } from "../../types";
 
 @Component({
   selector: 'app-shelf',
@@ -7,14 +7,15 @@ import { Book, bookSelectedEvent } from "../../types";
   styleUrls: ['./shelf.component.css']
 })
 export class ShelfComponent {
-  @Input() books: Book[] = [];
+  @Input() props: {
+    books: Shelf;
+    selectedBookId: string;
+  }
   @Output() bookSelected: EventEmitter<bookSelectedEvent> = new EventEmitter<bookSelectedEvent>();
-  private selectedBookId: string;
   public isSelected(id: string): boolean {
-    return id === this.selectedBookId;
+    return id === this.props.selectedBookId;
   }
   onSelect(event: bookSelectedEvent): void {
-    this.selectedBookId = event.item.id;
     this.bookSelected.emit(event);
   }
 }

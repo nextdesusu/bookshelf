@@ -2,7 +2,15 @@
   <h3>loading...</h3>
 </ng-template>
 <ng-template [ngIf]="loaded" [ngIfElse]="loadingTemplate">
-  <app-shelf *ngFor="let shelfBooks of data" [books]="shelfBooks"></app-shelf>
+  <div class="app-shelfs">
+    <app-shelf
+      *ngFor="let shelfBooks of data"
+      [props]="{
+        books: shelfBooks,
+        selectedBookId: selectedBook ? selectedBook.id : ''
+      }"
+      (bookSelected)="onBookSelected($event)"
+    ></app-shelf>
+  </div>
 </ng-template>
-<div></div>
-<app-form [props]="{ book: firstBook }"> </app-form>
+<app-form [props]="{ book: selectedBook }"> </app-form>

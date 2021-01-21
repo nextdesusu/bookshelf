@@ -1,5 +1,5 @@
 <app-book
-  *ngFor="let bookData of books"
+  *ngFor="let bookData of props.books"
   [props]="{ bookData: bookData, selected: isSelected(bookData.id) }"
   (select)="onSelect($event)"
 ></app-book>

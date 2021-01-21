@@ -1,16 +1,42 @@
 <form [formGroup]="formComponent" (ngSubmit)="onSubmit()">
-  <h2>form</h2>
+  <ng-template [ngIf]="state === 'book'" [ngIfElse]="author">
+    <h2>Книга</h2>
+    <div>
+      <label for="author">выбрать автора</label>
+      <select formControlName="author"></select>
+    </div>
+    <div>
+      <label for="title">название</label>
+      <input formControlName="title" name="title" />
+    </div>
+    <div>
+      <label for="written">дата написания</label>
+      <input formControlName="written" name="written" />
+    </div>
+    <div>
+      <label for="pages">количество страниц</label>
+      <input formControlName="pages" name="pages" />
+    </div>
+  </ng-template>
+  <button type="submit">принять изменения</button>
+</form>
+
+<ng-template #author>
+  <h2>Автор</h2>
   <div>
-    <label for="firstName">first name</label>
+    <label for="firstName">имя</label>
     <input formControlName="firstName" name="firstName" />
   </div>
   <div>
-    <label for="lastName">last name</label>
+    <label for="lastName">фамилия</label>
     <input formControlName="lastName" name="lastName" />
   </div>
   <div>
-    <label for="patronym">patronym</label>
-    <input formControlName="patronym" name="patronym" />
+    <label for="patronym">отчество</label>
+    <input
+      formControlName="patronym"
+      name="patronym"
+      placeholder="если есть..."
+    />
   </div>
-  <button type="submit">submit</button>
-</form>
+</ng-template>

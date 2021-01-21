@@ -13,9 +13,7 @@ export interface Book {
   pages: number;
 }
 
-export interface Shelf {
-  books: Book[];
-}
+export type Shelf = Book[];
 
 export interface bookSelectedEvent {
   readonly item: Book;

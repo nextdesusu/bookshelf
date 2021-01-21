@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Shelf } from "../types";
+import { Shelf, bookSelectedEvent, Book } from "../types";
 import fakeRequest from "../fakeRequest";
 
 @Component({
@@ -8,20 +8,24 @@ import fakeRequest from "../fakeRequest";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  private _selectedBook: Book;
   public data: Array<Shelf> = [];
-  public get firstBook() {
-    if (!this.loaded) return;
-    return this.data[0][2];
-  }
-  public get loaded(): boolean {
-    return this.data.length > 0;
-  }
   public formProps = {
     title: "test form",
     fields: [
       { type: "text", name: "text1" },
       { type: "text", name: "text2" }
     ]
+  }
+  public get firstBook(): Book {
+    if (!this.loaded) return;
+    return this.data[0][2];
+  }
+  public get loaded(): boolean {
+    return this.data.length > 0;
+  }
+  public get selectedBook(): Book {
+    return this._selectedBook;
   }
   ngOnInit(): void {
     fakeRequest()
@@ -33,5 +37,12 @@ export class AppComponent implements OnInit {
           throw "Fake request failed.";
         }
       })
+  }
+  onBookSelected(event: bookSelectedEvent): void {
+    if (this.selectedBook === event.item) {
+      this._selectedBook = undefined;
+    } else {
+      this._selectedBook = event.item;
+    }
   }
 }
