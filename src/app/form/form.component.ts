@@ -52,4 +52,7 @@ export class FormComponent implements OnChanges {
   onSubmit() {
     console.log(this.formComponent);
   }
+  swapState() {
+    this.state = this.state === "author" ? "book" : "author";
+  }
 }

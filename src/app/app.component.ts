@@ -9,6 +9,7 @@ import fakeRequest from "../fakeRequest";
 })
 export class AppComponent implements OnInit {
   private _selectedBook: Book;
+  private inAnimation: boolean = false;
   public data: Array<Shelf> = [];
   public formProps = {
     title: "test form",
@@ -39,10 +40,19 @@ export class AppComponent implements OnInit {
       })
   }
   onBookSelected(event: bookSelectedEvent): void {
-    if (this.selectedBook === event.item) {
-      this._selectedBook = undefined;
-    } else {
+    if (this.inAnimation && !event.animationFinished) return;
+    if (event.animationStart && this.selectedBook !== event.item) {
+      this.inAnimation = true;
       this._selectedBook = event.item;
+      return;
+    };
+    if (event.animationStart && this.selectedBook === event.item) {
+      this.inAnimation = true;
+      this._selectedBook = undefined;
+      return;
+    }
+    if (event.animationFinished) {
+      this.inAnimation = false;
     }
   }
 }

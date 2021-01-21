@@ -1,42 +1,55 @@
 <form [formGroup]="formComponent" (ngSubmit)="onSubmit()">
   <ng-template [ngIf]="state === 'book'" [ngIfElse]="author">
     <h2>Книга</h2>
-    <div>
+    <div class="form-input">
       <label for="author">выбрать автора</label>
       <select formControlName="author"></select>
     </div>
-    <div>
+    <div class="form-input">
       <label for="title">название</label>
-      <input formControlName="title" name="title" />
+      <input required formControlName="title" name="title" />
     </div>
-    <div>
+    <div class="form-input">
       <label for="written">дата написания</label>
-      <input formControlName="written" name="written" />
+      <input required formControlName="written" name="written" />
     </div>
-    <div>
+    <div class="form-input">
       <label for="pages">количество страниц</label>
-      <input formControlName="pages" name="pages" />
+      <input
+        required
+        type="number"
+        min="1"
+        formControlName="pages"
+        name="pages"
+      />
     </div>
   </ng-template>
-  <button type="submit">принять изменения</button>
-</form>
-
-<ng-template #author>
-  <h2>Автор</h2>
-  <div>
-    <label for="firstName">имя</label>
-    <input formControlName="firstName" name="firstName" />
-  </div>
-  <div>
-    <label for="lastName">фамилия</label>
-    <input formControlName="lastName" name="lastName" />
-  </div>
-  <div>
-    <label for="patronym">отчество</label>
+  <ng-template #author>
+    <h2>Автор</h2>
+    <div class="form-input">
+      <label for="firstName">имя</label>
+      <input required formControlName="firstName" name="firstName" />
+    </div>
+    <div class="form-input">
+      <label for="lastName">фамилия</label>
+      <input required formControlName="lastName" name="lastName" />
+    </div>
+    <div class="form-input">
+      <label for="patronym">отчество</label>
+      <input
+        formControlName="patronym"
+        name="patronym"
+        placeholder="если есть..."
+      />
+    </div>
+  </ng-template>
+  <div class="form-buttons-wrapper">
+    <button class="form-submit" type="submit">принять изменения</button>
     <input
-      formControlName="patronym"
-      name="patronym"
-      placeholder="если есть..."
+      (click)="swapState()"
+      type="button"
+      class="form-swap"
+      [value]="state === 'author' ? 'к автору' : 'к книге'"
     />
   </div>
-</ng-template>
+</form>

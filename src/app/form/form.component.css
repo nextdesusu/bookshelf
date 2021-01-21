@@ -1,0 +1,57 @@
+:host {
+  display: inline-block;
+  border-radius: 1em;
+  padding: 1em;
+  box-shadow: 1px 1px 10px black;
+  color: rgb(8, 8, 133);
+}
+
+:host > form {
+  display: grid;
+  grid-gap: 1em;
+}
+
+:host > form > h2 {
+  text-align: center;
+}
+
+.form-input {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.form-input > input, .form-input > select, .form-submit, .form-swap {
+  border-radius: 1em 0 1em 0;
+  border: none;
+  box-shadow: 1px 1px 10px rgb(10, 9, 9);
+  padding: 1em;
+  transition: box-shadow .4s linear;
+}
+
+.form-input > select, .form-submit, .form-swap {
+  cursor: pointer;
+}
+
+.form-buttons-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: .5em;
+}
+
+.form-submit, .form-swap {
+  background-color: rgba(8, 8, 133, 0.541);
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: white;
+  border-radius: 0;
+}
+
+.form-input > input:hover {
+  box-shadow: 3px 3px 10px rgb(10, 9, 9);
+}
+
+.form-input > label {
+  text-transform: capitalize;
+  font-weight: bold;
+}

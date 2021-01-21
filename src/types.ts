@@ -17,4 +17,6 @@ export type Shelf = Book[];
 
 export interface bookSelectedEvent {
   readonly item: Book;
+  animationStart: boolean;
+  animationFinished: boolean;
 }

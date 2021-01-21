@@ -6,6 +6,7 @@ import {
   HostBinding,
   OnChanges,
   SimpleChanges,
+  ChangeDetectorRef
 } from '@angular/core';
 import {
   trigger,
@@ -28,6 +29,7 @@ import { Book, bookSelectedEvent } from "../../types";
         width: "100%",
         height: "250px",
         borderRight: "2px solid rgba(192, 192, 192, 0.658)",
+        zIndex: "1"
       })),
       state('selected', style({
         width: "270%",
@@ -44,9 +46,9 @@ import { Book, bookSelectedEvent } from "../../types";
         animate('0.5s', keyframes([
           style({
             color: "rgba(0, 0, 0, 0)",
-            borderRight: "200px solid black",
-          }),
-
+            borderRight: "100px solid black",
+            borderRadius: "0 0 3em 0"
+          })
         ]))
       ])
     ])
@@ -59,25 +61,23 @@ export class BookComponent implements OnChanges {
   }
   @Output() select: EventEmitter<bookSelectedEvent> = new EventEmitter<bookSelectedEvent>();
   @HostBinding("class.selected") classSelected: boolean = false;
+  constructor(private changeDetector: ChangeDetectorRef) { }
   public animationsState: string = "unselected";
 
   onClick(): void {
-    this.select.emit({ item: this.props.bookData });
+    this.select.emit({ item: this.props.bookData, animationStart: true, animationFinished: false });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const { selected } = changes.props.currentValue;
-    if (selected) {
-      this.classSelected = selected;
-    }
+    this.classSelected = selected;
   }
 
-  onAnimationEvent(ev: AnimationEvent): void {
-    //console.warn("ev", ev);
-    if (ev.phaseName === "done" && ev.toState === "unselected") {
-      this.classSelected = false;
-    }
+  onAnimationEnd(ev: AnimationEvent): void {
+    if (ev.fromState === "void") return;
     this.animationsState = ev.toState;
+    this.select.emit({ item: this.props.bookData, animationStart: false, animationFinished: true });
+    this.changeDetector.detectChanges();
   }
 
   get title(): string {
@@ -100,5 +100,9 @@ export class BookComponent implements OnChanges {
 
   get written(): string {
     return this.props.bookData.written;
+  }
+
+  get unselected(): boolean {
+    return this.animationsState === 'unselected';
   }
 }
