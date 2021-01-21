@@ -13,7 +13,8 @@ import {
   style,
   animate,
   transition,
-  AnimationEvent
+  AnimationEvent,
+  keyframes
 } from '@angular/animations';
 import { Book, bookSelectedEvent } from "../../types";
 
@@ -27,19 +28,26 @@ import { Book, bookSelectedEvent } from "../../types";
         width: "100%",
         height: "250px",
         borderRight: "2px solid rgba(192, 192, 192, 0.658)",
-        borderLeft: "5px solid rgba(192, 192, 192, 0.884)",
       })),
       state('selected', style({
         width: "270%",
         height: "250px",
         borderRight: "3px solid rgba(192, 192, 192, 0.658)",
-        borderLeft: "2px solid rgba(192, 192, 192, 0.884)",
       })),
       transition('selected => unselected', [
-        animate('0.2s')
+        animate('0.2s', style({
+          color: "rgba(0, 0, 0, 0)",
+          width: "180%",
+        }))
       ]),
       transition('unselected => selected', [
-        animate('0.5s')
+        animate('0.5s', keyframes([
+          style({
+            color: "rgba(0, 0, 0, 0)",
+            borderRight: "200px solid black",
+          }),
+
+        ]))
       ])
     ])
   ]
