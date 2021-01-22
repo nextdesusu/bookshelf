@@ -33,3 +33,11 @@ export interface bookSelectedEvent {
   animationStart: boolean;
   animationFinished: boolean;
 }
+
+export type sortDirection = "ascending" | "descending";
+export type sorter = "none" | "title" | "author";
+
+export interface sortEvent {
+  direction: sortDirection;
+  sortBy: sorter;
+}

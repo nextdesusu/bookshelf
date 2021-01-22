@@ -12,4 +12,7 @@
     ></app-shelf>
   </div>
 </ng-template>
-<app-form [props]="{ book: selectedBook, authors: authors }"> </app-form>
+<div>
+  <app-sort (sort)="onSort($event)"></app-sort>
+  <app-form [props]="{ book: selectedBook, authors: authors }"> </app-form>
+</div>

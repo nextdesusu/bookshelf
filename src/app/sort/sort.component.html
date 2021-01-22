@@ -1,1 +1,6 @@
-<p>sort works!</p>
+<button (click)="onClick()">порядок {{sortSign}}</button>
+<select (change)="onChange($event)">
+  <option value="0">без сортировки</option>
+  <option value="1">по автору</option>
+  <option value="2">по названию</option>
+</select>

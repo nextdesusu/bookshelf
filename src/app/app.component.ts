@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { serializedShelf, Shelf, bookSelectedEvent, Book, BookSerialized, Author, request } from "../types";
+import {
+  serializedShelf,
+  Shelf,
+  bookSelectedEvent,
+  Book,
+  BookSerialized,
+  Author,
+  request,
+  sortEvent,
+  sortDirection
+} from "../types";
 import { fakeRequest } from "../utility";
 
 @Component({
@@ -63,5 +73,9 @@ export class AppComponent implements OnInit {
     if (event.animationFinished) {
       this.inAnimation = false;
     }
+  }
+
+  onSort(event: sortEvent) {
+    console.log("sort", event);
   }
 }
