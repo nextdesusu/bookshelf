@@ -37,7 +37,7 @@ import { Book, bookSelectedEvent } from "../../types";
         borderRight: "5px solid rgba(192, 192, 192, 0.658)",
       })),
       transition('selected => unselected', [
-        animate('0.2s', style({
+        animate('0.1s', style({
           color: "rgba(0, 0, 0, 0)",
           width: "180%",
         }))

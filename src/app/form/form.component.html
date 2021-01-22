@@ -2,14 +2,10 @@
   <ng-template [ngIf]="state === 'book'" [ngIfElse]="author">
     <h2>Книга</h2>
     <div class="form-input">
-      <label for="author">выбрать автора</label>
+      <label for="author">Изменить автора ({{ currentAuthorName() }})</label>
       <select formControlName="author">
-        <option [selected]="props.books === undefined">не выбран</option>
-        <option
-          *ngFor="let author of authorsList"
-          [selected]="isSelectedAuthor(author.id)"
-          [value]="author.id"
-        >
+        <option [selected]="true">не выбран</option>
+        <option *ngFor="let author of authorsList" [value]="author.id">
           {{ author.name }}
         </option>
       </select>

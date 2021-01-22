@@ -5,6 +5,23 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Book, Author } from "../../types";
 
+const getFullName = (author: Author): string => {
+  const { lastName, firstName, patronym } = author;
+  const patronymOrEmpty = `${patronym ? patronym : ""}`;
+  return `${lastName} ${firstName} ${patronymOrEmpty}`;
+}
+
+const formDefault = {
+  firstName: "отсутствует",
+  lastName: "отсутствует",
+  patronym: "отсутствует",
+
+  author: "",
+  title: "отсутствует",
+  written: "отсутствует",
+  pages: 0
+};
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -15,8 +32,10 @@ export class FormComponent implements OnChanges {
     book: Book;
     authors: Map<string, Author>;
   }
+  public authorsList: any = [];
   public formComponent: FormGroup;
   public state: "book" | "author" = "book";
+
   constructor() {
     this.formComponent = new FormGroup({
       firstName: new FormControl("", Validators.required),
@@ -29,39 +48,42 @@ export class FormComponent implements OnChanges {
       pages: new FormControl(0, Validators.required)
     });
   }
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes.props.currentValue?.book) return;
-    const { author, title, written, pages } = changes.props.currentValue.book;
-    const { firstName, lastName, patronym } = author;
-    this.formComponent.setValue({
-      firstName,
-      lastName,
-      patronym: patronym ? patronym : "",
 
-      author: "0",
-      title,
-      written,
-      pages
+  ngOnChanges(changes: SimpleChanges) {
+    const { authors, book } = changes.props.currentValue;
+    if (authors === undefined) return;
+    this.authorsList = Array.from(authors.entries()).map((pair) => {
+      return { name: getFullName(pair[1]), id: pair[0] };
     });
+    if (book === undefined) {
+      this.formComponent.setValue(formDefault);
+    } else {
+      const { author, title, written, pages } = book;
+      const { firstName, lastName, patronym } = author;
+      this.formComponent.setValue({
+        firstName,
+        lastName,
+        patronym: patronym ? patronym : "",
+
+        author: "0",
+        title,
+        written,
+        pages
+      });
+    }
   }
-  onSubmit() {
+
+  public onSubmit() {
     console.log(this.formComponent);
   }
-  swapState() {
+
+  public swapState() {
     this.state = this.state === "author" ? "book" : "author";
   }
-  get authorsList() {
-    const { authors } = this.props;
-    if (authors === undefined) return [];
-    return Array.from(authors.entries()).map((pair) => {
-      const { lastName, firstName, patronym } = pair[1];
-      const patronymOrEmpty = `${patronym ? patronym : ""}`
-      return { name: `${lastName} ${firstName} ${patronymOrEmpty}`, id: pair[0] };
-    })
-  }
-  isSelectedAuthor(authorId: string): boolean {
+
+  public currentAuthorName(): string {
     const { book } = this.props;
-    if (!book) return false;
-    return authorId === book.author.id;
+    if (book === undefined) return "отсутствует";
+    return getFullName(book.author);
   }
 }
