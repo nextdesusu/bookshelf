@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { serializedShelf, Shelf, bookSelectedEvent, Book, BookSerialized, Author, request } from "../types";
-import fakeRequest from "../fakeRequest";
+import { fakeRequest } from "../utility";
 
 @Component({
   selector: 'app-root',

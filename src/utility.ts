@@ -23,7 +23,7 @@ const createBook = (
   id
 })
 
-const fakeRequest = (): Promise<string> => {
+export const fakeRequest = (): Promise<string> => {
   const a1 = createAuthor("лев толстой николаевич");
   const b1 = createBook(a1.id, "анна каренина", "1878", 864);
   const b2 = createBook(a1.id, "война и мир", "1863—1869", 1300)
@@ -60,4 +60,8 @@ const fakeRequest = (): Promise<string> => {
   })
 }
 
-export default fakeRequest;
+export const getFullName = (author: Author): string => {
+  const { lastName, firstName, patronym } = author;
+  const patronymOrEmpty = `${patronym ? patronym : ""}`;
+  return `${lastName} ${firstName} ${patronymOrEmpty}`;
+}

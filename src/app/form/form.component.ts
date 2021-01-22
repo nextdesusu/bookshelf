@@ -3,13 +3,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { getFullName } from "../../utility";
 import { Book, Author } from "../../types";
-
-const getFullName = (author: Author): string => {
-  const { lastName, firstName, patronym } = author;
-  const patronymOrEmpty = `${patronym ? patronym : ""}`;
-  return `${lastName} ${firstName} ${patronymOrEmpty}`;
-}
 
 const formDefault = {
   firstName: "отсутствует",

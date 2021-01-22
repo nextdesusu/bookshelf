@@ -17,6 +17,7 @@ import {
   AnimationEvent,
   keyframes
 } from '@angular/animations';
+import { getFullName } from "../../utility";
 import { Book, bookSelectedEvent } from "../../types";
 
 @Component({
@@ -89,13 +90,7 @@ export class BookComponent implements OnChanges {
   }
 
   get author(): string {
-    const {
-      lastName,
-      firstName,
-      patronym,
-    } = this.props.bookData.author;
-    const patronymOrEmpty = patronym ? ` ${patronym}` : "";
-    return `${lastName} ${firstName}${patronymOrEmpty}`;
+    return getFullName(this.props.bookData.author);
   }
 
   get pages(): number {
