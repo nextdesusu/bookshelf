@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { ShelfComponent } from './shelf/shelf.component';
 import { BookComponent } from './book/book.component';
 import { FormComponent } from './form/form.component';
+import { SortComponent } from './sort/sort.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShelfComponent,
     BookComponent,
-    FormComponent
+    FormComponent,
+    SortComponent
   ],
   imports: [
     BrowserModule,
