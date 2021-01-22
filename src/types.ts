@@ -24,7 +24,7 @@ export type Shelf = Book[];
 export type serializedShelf = BookSerialized[];
 
 export interface request {
-  shelfs: serializedShelf[];
+  books: serializedShelf;
   authors: Author[];
 }
 

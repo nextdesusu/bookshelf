@@ -14,8 +14,10 @@
   box-shadow: 1px 10px 30px black;
   cursor: pointer;
   border-radius: 0 5px 5px 0;
-  color: gold;
+  color: rgba(255, 217, 0, 0.774);
   border-top: 7px solid rgb(253, 253, 253);
+
+  background-image: url("../../assets/book-default.jpg");
 }
 
 .book-wrapper-unselected {
@@ -35,4 +37,9 @@
 }
 
 .book-title {
+}
+
+.book-wrapper {
+  display: grid;
+  grid-template-rows: 30% 30% 20% 10%;
 }

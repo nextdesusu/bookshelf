@@ -4,9 +4,8 @@
 <ng-template [ngIf]="loaded" [ngIfElse]="loadingTemplate">
   <div class="app-shelfs">
     <app-shelf
-      *ngFor="let shelfBooks of data"
       [props]="{
-        books: shelfBooks,
+        books: data,
         selectedBookId: selectedBook ? selectedBook.id : ''
       }"
       (bookSelected)="onBookSelected($event)"

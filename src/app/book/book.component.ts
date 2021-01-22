@@ -43,9 +43,10 @@ import { Book, bookSelectedEvent } from "../../types";
         }))
       ]),
       transition('unselected => selected', [
-        animate('0.5s', keyframes([
+        animate('0.4s', keyframes([
           style({
             color: "rgba(0, 0, 0, 0)",
+
             borderRight: "100px solid black",
             borderRadius: "0 0 3em 0"
           })
@@ -102,7 +103,9 @@ export class BookComponent implements OnChanges {
   }
 
   get written(): string {
-    return this.props.bookData.written;
+    const { written } = this.props.bookData;
+    const postfix: string = written.includes("-") ? "годах" : "году";
+    return `в ${written}  ${postfix}`;
   }
 
   get unselected(): boolean {

@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   private _selectedBook: Book;
   private inAnimation: boolean = false;
   public authors: Map<string, Author> = new Map();
-  public data: Shelf[] = [];
+  public data: Shelf = [];
   public formProps = {
     title: "test form",
     fields: [
@@ -34,16 +34,14 @@ export class AppComponent implements OnInit {
       .then((request: string) => {
         const result: request | null = JSON.parse(request);
         if (result !== null) {
-          const { authors, shelfs } = result;
+          const { authors, books } = result;
           for (const author of authors) {
             this.authors.set(author.id, author);
           }
-          this.data = shelfs.map((shelf: serializedShelf): Shelf => {
-            return shelf.map((bookS: BookSerialized): Book => {
-              const { id, title, written, pages, authorId } = bookS;
-              const author = this.authors.get(authorId);
-              return { id, title, written, pages, author };
-            })
+          this.data = books.map((bookS: BookSerialized): Book => {
+            const { id, title, written, pages, authorId } = bookS;
+            const author = this.authors.get(authorId);
+            return { id, title, written, pages, author };
           });
         } else {
           throw "Fake request failed.";
