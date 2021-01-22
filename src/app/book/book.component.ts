@@ -34,7 +34,7 @@ import { Book, bookSelectedEvent } from "../../types";
       state('selected', style({
         width: "270%",
         height: "250px",
-        borderRight: "3px solid rgba(192, 192, 192, 0.658)",
+        borderRight: "5px solid rgba(192, 192, 192, 0.658)",
       })),
       transition('selected => unselected', [
         animate('0.2s', style({
@@ -81,7 +81,10 @@ export class BookComponent implements OnChanges {
   }
 
   get title(): string {
-    return this.props.bookData.title;
+    const { title } = this.props.bookData;
+    const first = title.charAt(0).toUpperCase();
+    const rest = title.slice(1);
+    return first + rest;
   }
 
   get author(): string {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Shelf, bookSelectedEvent, Book } from "../types";
+import { serializedShelf, Shelf, bookSelectedEvent, Book, BookSerialized, Author, request } from "../types";
 import fakeRequest from "../fakeRequest";
 
 @Component({
@@ -10,7 +10,8 @@ import fakeRequest from "../fakeRequest";
 export class AppComponent implements OnInit {
   private _selectedBook: Book;
   private inAnimation: boolean = false;
-  public data: Array<Shelf> = [];
+  public authors: Map<string, Author> = new Map();
+  public data: Shelf[] = [];
   public formProps = {
     title: "test form",
     fields: [
@@ -31,9 +32,19 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     fakeRequest()
       .then((request: string) => {
-        const result = JSON.parse(request);
-        if (result) {
-          this.data = result;
+        const result: request | null = JSON.parse(request);
+        if (result !== null) {
+          const { authors, shelfs } = result;
+          for (const author of authors) {
+            this.authors.set(author.id, author);
+          }
+          this.data = shelfs.map((shelf: serializedShelf): Shelf => {
+            return shelf.map((bookS: BookSerialized): Book => {
+              const { id, title, written, pages, authorId } = bookS;
+              const author = this.authors.get(authorId);
+              return { id, title, written, pages, author };
+            })
+          });
         } else {
           throw "Fake request failed.";
         }

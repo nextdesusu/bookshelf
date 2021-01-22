@@ -15,23 +15,24 @@
   cursor: pointer;
   border-radius: 0 5px 5px 0;
   color: gold;
-  border-top: 4px solid rgb(253, 253, 253);
+  border-top: 7px solid rgb(253, 253, 253);
 }
 
 .book-wrapper-unselected {
   transform: rotate(90deg);
 }
 
-.book-title {
-}
-.book-author {
-}
-
 .book-title,
 .book-author {
   margin: 0;
   padding: 0;
-  text-transform: capitalize;
   text-align: center;
   white-space: nowrap;
+}
+
+.book-author {
+  text-transform: capitalize;
+}
+
+.book-title {
 }

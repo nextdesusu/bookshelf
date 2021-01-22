@@ -3,7 +3,16 @@
     <h2>Книга</h2>
     <div class="form-input">
       <label for="author">выбрать автора</label>
-      <select formControlName="author"></select>
+      <select formControlName="author">
+        <option [selected]="props.books === undefined">не выбран</option>
+        <option
+          *ngFor="let author of authorsList"
+          [selected]="isSelectedAuthor(author.id)"
+          [value]="author.id"
+        >
+          {{ author.name }}
+        </option>
+      </select>
     </div>
     <div class="form-input">
       <label for="title">название</label>
@@ -49,7 +58,7 @@
       (click)="swapState()"
       type="button"
       class="form-swap"
-      [value]="state === 'author' ? 'к автору' : 'к книге'"
+      [value]="state === 'author' ? 'к книге' : 'к автору'"
     />
   </div>
 </form>

@@ -47,11 +47,15 @@
   border-radius: 0;
 }
 
-.form-input > input:hover {
+.form-input > input:hover, .form-input > select:hover {
   box-shadow: 3px 3px 10px rgb(10, 9, 9);
 }
 
 .form-input > label {
   text-transform: capitalize;
   font-weight: bold;
+}
+
+.form-input > select {
+  border-radius: 1em 0 0 0;
 }

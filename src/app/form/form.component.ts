@@ -1,15 +1,9 @@
 import {
-  Component, OnInit, Input, OnChanges,
+  Component, Input, OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
-interface fieldDescription {
-  type: "text" | "number";
-  name: string;
-  defaultValue?: string;
-  required?: boolean;
-}
+import { Book, Author } from "../../types";
 
 @Component({
   selector: 'app-form',
@@ -18,7 +12,8 @@ interface fieldDescription {
 })
 export class FormComponent implements OnChanges {
   @Input() props: {
-    book: any;
+    book: Book;
+    authors: Map<string, Author>;
   }
   public formComponent: FormGroup;
   public state: "book" | "author" = "book";
@@ -54,5 +49,19 @@ export class FormComponent implements OnChanges {
   }
   swapState() {
     this.state = this.state === "author" ? "book" : "author";
+  }
+  get authorsList() {
+    const { authors } = this.props;
+    if (authors === undefined) return [];
+    return Array.from(authors.entries()).map((pair) => {
+      const { lastName, firstName, patronym } = pair[1];
+      const patronymOrEmpty = `${patronym ? patronym : ""}`
+      return { name: `${lastName} ${firstName} ${patronymOrEmpty}`, id: pair[0] };
+    })
+  }
+  isSelectedAuthor(authorId: string): boolean {
+    const { book } = this.props;
+    if (!book) return false;
+    return authorId === book.author.id;
   }
 }

@@ -5,15 +5,28 @@ export interface Author {
   patronym?: string;
 }
 
-export interface Book {
+interface bookProperties {
   readonly id: string;
-  author: Author;
   title: string;
   written: string;
   pages: number;
 }
 
+export interface Book extends bookProperties {
+  author: Author;
+}
+
+export interface BookSerialized extends bookProperties {
+  authorId: string;
+}
+
 export type Shelf = Book[];
+export type serializedShelf = BookSerialized[];
+
+export interface request {
+  shelfs: serializedShelf[];
+  authors: Author[];
+}
 
 export interface bookSelectedEvent {
   readonly item: Book;
