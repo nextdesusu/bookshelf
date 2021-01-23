@@ -8,7 +8,12 @@ import {
   Author,
   request,
   sortEvent,
-  sortDirection
+  sortDirection,
+  authorTemplate,
+  bookTemplate,
+  authorEvent,
+  bookEvent,
+  bookDeleteEvent,
 } from "../types";
 import { fakeRequest } from "../utility";
 
@@ -77,5 +82,67 @@ export class AppComponent implements OnInit {
 
   onSort(event: sortEvent) {
     console.log("sort", event);
+  }
+
+  private genAuthorId(): string {
+    let max = 0;
+    for (const pair of this.authors.entries()) {
+      const n = Number(pair[0]);
+      if (n > max) {
+        max = n;
+      }
+    }
+    return String(max + 1);
+  }
+
+  private genBookId(): string {
+    const max = this.data.reduce((cMax: number, current: Book) => {
+      const id = Number(current.id);
+      return id > cMax ? id : cMax;
+    }, 0)
+    return String(max + 1);
+  }
+
+  onAuthor(ev: authorEvent) {
+    this._selectedBook = undefined;
+    const id = ev.new ? this.genAuthorId() : this.authors.get(ev.change)?.id;
+    if (!id) throw `Author with id ${ev.change} do not exist!`;
+    const author: Author = {
+      id,
+      ...ev.item
+    };
+    this.authors.set(id, author);
+    console.log("new author", this.authors);
+  }
+
+  onBookDelete(ev: bookDeleteEvent): void {
+    this._selectedBook = undefined;
+    this.data = this.data.filter((book: Book) => book.id !== ev.id);
+  }
+
+  onBook(ev: bookEvent): void {
+    this._selectedBook = undefined;
+    const id = ev.new ? this.genBookId() : ev.change;
+    const author = this.authors.get(ev.authorId);
+    if (id === undefined || author === null)
+      throw `Book with id ${ev.change} or author id: ${ev.authorId} do not exist!`;
+    console.log("auth", author);
+    console.log("id", id);
+    const book: Book = {
+      id,
+      author,
+      ...ev.item
+    };
+    if (ev.new) {
+      this.data.push(book);
+    } else {
+      for (let index = 0; index < this.data.length; index += 1) {
+        const item: Book = this.data[index];
+        if (item.id === id) {
+          this.data[index] = book;
+          break;
+        }
+      }
+    }
   }
 }

@@ -1,10 +1,16 @@
-<form [formGroup]="formComponent" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="state === 'book' ? bookForm : authorForm"
+  (ngSubmit)="onSubmit()"
+>
   <ng-template [ngIf]="state === 'book'" [ngIfElse]="author">
-    <h2>Книга</h2>
+    <h2>
+      Книга
+      <a (click)="deleteBook()" *ngIf="props.book !== undefined">удалить</a>
+    </h2>
     <div class="form-input">
-      <label for="author">Изменить автора ({{ currentAuthorName() }})</label>
+      <label for="author">автор ({{ currentAuthorName() }})</label>
       <select formControlName="author">
-        <option [selected]="true">не выбран</option>
+        <option disabled value="-1">не выбран</option>
         <option *ngFor="let author of authorsList" [value]="author.id">
           {{ author.name }}
         </option>
@@ -12,15 +18,26 @@
     </div>
     <div class="form-input">
       <label for="title">название</label>
-      <input required formControlName="title" name="title" />
+      <input
+        placeholder="не введено..."
+        required
+        formControlName="title"
+        name="title"
+      />
     </div>
     <div class="form-input">
       <label for="written">дата написания</label>
-      <input required formControlName="written" name="written" />
+      <input
+        placeholder="не введено..."
+        required
+        formControlName="written"
+        name="written"
+      />
     </div>
     <div class="form-input">
       <label for="pages">количество страниц</label>
       <input
+        placeholder="не введено..."
         required
         type="number"
         min="1"
@@ -33,11 +50,21 @@
     <h2>Автор</h2>
     <div class="form-input">
       <label for="firstName">имя</label>
-      <input required formControlName="firstName" name="firstName" />
+      <input
+        placeholder="не введено..."
+        required
+        formControlName="firstName"
+        name="firstName"
+      />
     </div>
     <div class="form-input">
       <label for="lastName">фамилия</label>
-      <input required formControlName="lastName" name="lastName" />
+      <input
+        placeholder="не введено..."
+        required
+        formControlName="lastName"
+        name="lastName"
+      />
     </div>
     <div class="form-input">
       <label for="patronym">отчество</label>
@@ -49,7 +76,9 @@
     </div>
   </ng-template>
   <div class="form-buttons-wrapper">
-    <button class="form-submit" type="submit">принять изменения</button>
+    <button class="form-submit" type="submit">
+      {{ props.book === undefined ? "создать" : "принять изменения" }}
+    </button>
     <input
       (click)="swapState()"
       type="button"

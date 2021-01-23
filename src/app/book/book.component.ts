@@ -47,8 +47,7 @@ import { Book, bookSelectedEvent } from "../../types";
         animate('0.4s', keyframes([
           style({
             color: "rgba(0, 0, 0, 0)",
-
-            borderRight: "100px solid black",
+            borderRight: "100px solid #121212",
             borderRadius: "0 0 3em 0"
           })
         ]))

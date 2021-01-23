@@ -1,23 +1,45 @@
 :host {
-  display: inline-block;
+  display: grid;
+  grid-template-rows: 5% 95%;
   border-radius: 1em;
-  padding: 1em;
   box-shadow: 1px 1px 10px black;
   color: rgb(8, 8, 133);
+  height: 90vh;
+  width: 25vw;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 :host > form {
   display: grid;
-  grid-gap: 1em;
+  grid-gap: .5em;
+  height: 80vh;
+  padding: 1em;
+  height: 78vh;
 }
 
 :host > form > h2 {
   text-align: center;
+  margin: 0;
+}
+
+:host > form > h2 > a {
+  text-decoration: underline;
+}
+
+:host > form > h2 > a:hover {
+  color: red;
+  cursor: pointer;
 }
 
 .form-input {
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 30% 60%;
+  grid-gap: .6em;
+}
+
+.form-input > label {
+  margin: 0;
+  padding: 0;
 }
 
 .form-input > input, .form-input > select, .form-submit, .form-swap {
@@ -32,6 +54,10 @@
   cursor: pointer;
 }
 
+.form-input > select, .form-input > select > option {
+  text-transform: capitalize;
+}
+
 .form-buttons-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -40,7 +66,7 @@
 
 .form-submit, .form-swap {
   background-color: rgba(8, 8, 133, 0.541);
-  font-size: 1em;
+  font-size: .8em;
   font-weight: bold;
   text-transform: capitalize;
   color: white;
@@ -59,3 +85,8 @@
 .form-input > select {
   border-radius: 1em 0 0 0;
 }
+
+.form-input > input.ng-invalid {
+  border: 1px solid rgba(196, 5, 5, 0.849);
+}
+

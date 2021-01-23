@@ -4,14 +4,14 @@
 }
 
 .shelf-books {
-  width: 507px;
+  width: 590px;
   padding: 5px;
   display: grid;
-  grid-template-columns: repeat(6, 80px);
+  grid-template-columns: repeat(7, 80px);
   grid-gap: 5px;
-  background-color: red;
-  background-image: url("../../assets/shelf.jpg");
+  background-image: url("../../assets/shelf-background.jpg");
+  background-size: auto;
   border: 20px solid black;
   border-image: url("../../assets/shelf-outer.jpg") 20 round round;
-  box-shadow: inset 3px 3px 10px rgb(88, 44, 2);
+  box-shadow: inset 10px 10px 10px rgb(88, 44, 2);
 }
