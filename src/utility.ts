@@ -23,6 +23,13 @@ const createBook = (
   id
 })
 
+const randomNumber = (min: number, max: number) =>
+  Math.round(min - 0.5 + Math.random() * (max - min + 1));
+const randomCharCode = (s: string) =>
+  s.charCodeAt(randomNumber(0, s.length));
+const randomComparer = (a: BookSerialized, b: BookSerialized) =>
+  randomCharCode(a.title) - randomCharCode(b.title);
+
 export const fakeRequest = (): Promise<string> => {
   const a1 = createAuthor("лев толстой николаевич");
   const b1 = createBook(a1.id, "анна каренина", "1878", 864);
@@ -50,9 +57,12 @@ export const fakeRequest = (): Promise<string> => {
   const b13 = createBook(a5.id, "бледный огонь", "1962", 315);
   const b14 = createBook(a5.id, "ада", "1959-1969", 704);
 
+  const booksArray = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14];
+  booksArray.sort(randomComparer);
+
   const requestSrc: request = {
     authors: [a1, a2, a3, a4, a5, a6],
-    books: [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14]
+    books: booksArray
   };
   const request = JSON.stringify(requestSrc);
   return new Promise((res) => {
