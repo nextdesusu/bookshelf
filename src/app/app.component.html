@@ -5,7 +5,7 @@
   <div class="app-shelfs">
     <app-shelf
       [props]="{
-        books: data,
+        books: books,
         selectedBookId: selectedBook ? selectedBook.id : ''
       }"
       (bookSelected)="onBookSelected($event)"

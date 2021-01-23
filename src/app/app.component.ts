@@ -1,3 +1,4 @@
+import { NONE_TYPE } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import {
   serializedShelf,
@@ -23,28 +24,17 @@ import { fakeRequest } from "../utility";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private _selectedBook: Book;
+  private selectedBook: Book;
   private inAnimation: boolean = false;
   public authors: Map<string, Author> = new Map();
-  public data: Shelf = [];
-  public formProps = {
-    title: "test form",
-    fields: [
-      { type: "text", name: "text1" },
-      { type: "text", name: "text2" }
-    ]
-  }
-  public get firstBook(): Book {
-    if (!this.loaded) return;
-    return this.data[0][2];
-  }
+  private data: Shelf = [];
+  public books: Shelf = [];
+
   public get loaded(): boolean {
-    return this.data.length > 0;
+    return this.data?.length > 0;
   }
-  public get selectedBook(): Book {
-    return this._selectedBook;
-  }
-  ngOnInit(): void {
+
+  public ngOnInit(): void {
     fakeRequest()
       .then((request: string) => {
         const result: request | null = JSON.parse(request);
@@ -58,21 +48,23 @@ export class AppComponent implements OnInit {
             const author = this.authors.get(authorId);
             return { id, title, written, pages, author };
           });
+          this.books = this.data;
         } else {
-          throw "Fake request failed.";
+          throw "Fake request failed...";
         }
       })
   }
-  onBookSelected(event: bookSelectedEvent): void {
+
+  public onBookSelected(event: bookSelectedEvent): void {
     if (this.inAnimation && !event.animationFinished) return;
     if (event.animationStart && this.selectedBook !== event.item) {
       this.inAnimation = true;
-      this._selectedBook = event.item;
+      this.selectedBook = event.item;
       return;
     };
     if (event.animationStart && this.selectedBook === event.item) {
       this.inAnimation = true;
-      this._selectedBook = undefined;
+      this.selectedBook = undefined;
       return;
     }
     if (event.animationFinished) {
@@ -80,8 +72,59 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onSort(event: sortEvent) {
+  public onSort(event: sortEvent) {
     console.log("sort", event);
+  }
+
+  public onAuthor(ev: authorEvent) {
+    this.selectedBook = undefined;
+    const id = ev.new ? this.genAuthorId() : this.authors.get(ev.change)?.id;
+    if (!id) throw `Author with id ${ev.change} do not exist!`;
+    const author: Author = {
+      id,
+      ...ev.item
+    };
+    this.authors.set(id, author);
+  }
+
+  public onBookDelete(ev: bookDeleteEvent): void {
+    this.selectedBook = undefined;
+    this.data = this.data.filter((book: Book) => book.id !== ev.id);
+    this.handleData();
+  }
+
+  public onBook(ev: bookEvent): void {
+    this.selectedBook = undefined;
+    const id = ev.new ? this.genBookId() : ev.change;
+    const author = this.authors.get(ev.authorId);
+    if (id === undefined || author === null)
+      throw `Book with id ${ev.change} or author id: ${ev.authorId} do not exist!`;
+    const book: Book = {
+      id,
+      author,
+      ...ev.item
+    };
+    if (ev.new) {
+      this.data.push(book);
+    } else {
+      const bookIndex = this.findBookIndexById(id);
+      this.data[bookIndex] = book;
+    }
+    this.handleData();
+  }
+
+  private handleData(): void {
+    this.books = this.data;
+  }
+
+  private findBookIndexById(id: string): number {
+    for (let index = 0; index < this.data.length; index += 1) {
+      const item: Book = this.data[index];
+      if (item.id === id) {
+        return index;
+      }
+    }
+    return -1;
   }
 
   private genAuthorId(): string {
@@ -101,48 +144,5 @@ export class AppComponent implements OnInit {
       return id > cMax ? id : cMax;
     }, 0)
     return String(max + 1);
-  }
-
-  onAuthor(ev: authorEvent) {
-    this._selectedBook = undefined;
-    const id = ev.new ? this.genAuthorId() : this.authors.get(ev.change)?.id;
-    if (!id) throw `Author with id ${ev.change} do not exist!`;
-    const author: Author = {
-      id,
-      ...ev.item
-    };
-    this.authors.set(id, author);
-    console.log("new author", this.authors);
-  }
-
-  onBookDelete(ev: bookDeleteEvent): void {
-    this._selectedBook = undefined;
-    this.data = this.data.filter((book: Book) => book.id !== ev.id);
-  }
-
-  onBook(ev: bookEvent): void {
-    this._selectedBook = undefined;
-    const id = ev.new ? this.genBookId() : ev.change;
-    const author = this.authors.get(ev.authorId);
-    if (id === undefined || author === null)
-      throw `Book with id ${ev.change} or author id: ${ev.authorId} do not exist!`;
-    console.log("auth", author);
-    console.log("id", id);
-    const book: Book = {
-      id,
-      author,
-      ...ev.item
-    };
-    if (ev.new) {
-      this.data.push(book);
-    } else {
-      for (let index = 0; index < this.data.length; index += 1) {
-        const item: Book = this.data[index];
-        if (item.id === id) {
-          this.data[index] = book;
-          break;
-        }
-      }
-    }
   }
 }
