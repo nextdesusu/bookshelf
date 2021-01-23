@@ -1,12 +1,11 @@
 :host {
   display: grid;
   grid-template-rows: 5% 95%;
-  border-radius: 1em;
   box-shadow: 1px 1px 10px black;
   color: rgb(8, 8, 133);
   height: 90vh;
-  width: 25vw;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #301E15;
 }
 
 :host > form {
@@ -48,6 +47,8 @@
   box-shadow: 1px 1px 10px rgb(10, 9, 9);
   padding: 1em;
   transition: box-shadow .4s linear;
+  background-color: #301E15;
+  color: white
 }
 
 .form-input > select, .form-submit, .form-swap {
@@ -65,7 +66,7 @@
 }
 
 .form-submit, .form-swap {
-  background-color: rgba(8, 8, 133, 0.541);
+  background-color: #301e15be;
   font-size: .8em;
   font-weight: bold;
   text-transform: capitalize;
@@ -86,7 +87,38 @@
   border-radius: 1em 0 0 0;
 }
 
-.form-input > input.ng-invalid {
+.form-input > input.ng-invalid, .form-input > select.ng-invalid {
   border: 1px solid rgba(196, 5, 5, 0.849);
 }
 
+.form-confirm-header, .form-confirm-title {
+  font-size: 2em;
+  text-align: center;
+}
+
+.form-confirm-header {
+  color:rgba(196, 5, 5, 0.849);
+}
+
+.form-confirm-title {
+  text-transform: capitalize;
+}
+
+.form-confirm-back, .form-confirm-submit {
+  background-color: #301e158e;
+  border: none;
+  border-radius: .3em;
+  text-transform: capitalize;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color .3s;
+  cursor: pointer;
+}
+
+.form-confirm-submit:hover {
+  background-color: rgba(196, 5, 5, 0.849);
+}
+
+.form-confirm-back:hover {
+  background-color: rgba(24, 5, 196, 0.849);
+}

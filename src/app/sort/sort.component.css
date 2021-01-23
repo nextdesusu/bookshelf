@@ -1,0 +1,23 @@
+:host {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  box-shadow: 1px 1px 10px black;
+}
+
+:host > button, :host > select {
+  text-transform: capitalize;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  background-color: #301E15;
+  color: white;
+
+}
+
+:host > button {
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom: 1px dotted black;
+}
+
+:host > select {
+}

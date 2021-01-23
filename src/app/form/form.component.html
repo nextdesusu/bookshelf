@@ -1,16 +1,19 @@
 <form
   [formGroup]="state === 'book' ? bookForm : authorForm"
   (ngSubmit)="onSubmit()"
+  [ngSwitch]="state"
 >
-  <ng-template [ngIf]="state === 'book'" [ngIfElse]="author">
+  <ng-template ngSwitchCase="book">
     <h2>
       Книга
-      <a (click)="deleteBook()" *ngIf="props.book !== undefined">удалить</a>
+      <a (click)="toDeleteForm()" *ngIf="props.book !== undefined">удалить</a>
     </h2>
     <div class="form-input">
       <label for="author">автор ({{ currentAuthorName() }})</label>
       <select formControlName="author">
-        <option disabled value="-1">не выбран</option>
+        <option *ngIf="props.book === undefined" disabled value="-1">
+          не выбран
+        </option>
         <option *ngFor="let author of authorsList" [value]="author.id">
           {{ author.name }}
         </option>
@@ -46,7 +49,7 @@
       />
     </div>
   </ng-template>
-  <ng-template #author>
+  <ng-template ngSwitchCase="author">
     <h2>Автор</h2>
     <div class="form-input">
       <label for="firstName">имя</label>
@@ -75,7 +78,18 @@
       />
     </div>
   </ng-template>
-  <div class="form-buttons-wrapper">
+  <ng-template ngSwitchCase="delete">
+    <h3 class="form-confirm-header">Подвердите удаление</h3>
+    <h4 class="form-confirm-title">{{ props.book.title }}</h4>
+    <button class="form-confirm-back" (click)="toBookForm()">нет</button>
+    <button class="form-confirm-submit" (click)="deleteBook()" type="submit">
+      да
+    </button>
+  </ng-template>
+  <div
+    class="form-buttons-wrapper"
+    *ngIf="state === 'book' || state === 'author'"
+  >
     <button class="form-submit" type="submit">
       {{ props.book === undefined ? "создать" : "принять изменения" }}
     </button>

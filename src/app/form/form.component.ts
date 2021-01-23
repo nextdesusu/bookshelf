@@ -6,9 +6,31 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { getFullName } from "../../utility";
 import { Book, Author, authorTemplate, bookTemplate, authorEvent, bookEvent, bookDeleteEvent } from "../../types";
+
+type ValidatorFnReturnValue = { [key: string]: any } | null;
+
+const forbiddenValue = (nameRe: RegExp): ValidatorFn => {
+  return (control: AbstractControl): ValidatorFnReturnValue => {
+    const forbidden = nameRe.test(control.value);
+    return forbidden ? { forbiddenName: { value: control.value } } : null;
+  };
+}
+
+const writtenRe = /[0-9]{1,}-{0,1}[0-9]{0,}/;
+const writtenValidator = (control: AbstractControl): ValidatorFnReturnValue => {
+  const forbidden = !writtenRe.test(control.value);
+  return forbidden ? { forbiddenName: { value: control.value } } : null;
+}
+
+const pagesRe = /[1-9]{1,}/;
+const minusRe = /-{1,}/;
+const pagesValidator = (control: AbstractControl): ValidatorFnReturnValue => {
+  const forbidden = !pagesRe.test(control.value) || minusRe.test(control.value);
+  return forbidden ? { forbiddenName: { value: control.value } } : null;
+}
 
 const formsDefault = {
   author: {
@@ -38,7 +60,7 @@ export class FormComponent implements OnChanges {
   @Output() authorEvent: EventEmitter<authorEvent> = new EventEmitter<authorEvent>();
   @Output() bookDeleteEvent: EventEmitter<bookDeleteEvent> = new EventEmitter<bookDeleteEvent>();
   public authorsList: { name: string, id: string }[] = [];
-  public state: "book" | "author" = "book";
+  public state: "book" | "author" | "delete" = "book";
 
   public authorForm: FormGroup;
   public bookForm: FormGroup;
@@ -49,10 +71,10 @@ export class FormComponent implements OnChanges {
       patronym: new FormControl(""),
     });
     this.bookForm = new FormGroup({
-      author: new FormControl("-1", Validators.required),
+      author: new FormControl("-1", [Validators.required, forbiddenValue(/-1/)]),
       title: new FormControl("", Validators.required),
-      written: new FormControl("", Validators.required),
-      pages: new FormControl(0, Validators.required)
+      written: new FormControl("", [Validators.required, writtenValidator]),
+      pages: new FormControl(0, [Validators.required, pagesValidator])
     })
   }
 
@@ -72,8 +94,6 @@ export class FormComponent implements OnChanges {
     } else {
       const { author, title, written, pages } = book;
       const { firstName, lastName, patronym } = author;
-      //!!!!!!
-      console.log("selecting", author.id)
       this.authorForm.setValue({
         firstName,
         lastName,
@@ -146,10 +166,19 @@ export class FormComponent implements OnChanges {
 
   public deleteBook(): void {
     this.bookDeleteEvent.emit({ id: this.props.book.id });
+    this.toBookForm();
   }
 
-  public swapState() {
+  public swapState(): void {
     this.state = this.state === "author" ? "book" : "author";
+  }
+
+  public toBookForm(): void {
+    this.state = "book";
+  }
+
+  public toDeleteForm(): void {
+    this.state = "delete";
   }
 
   public currentAuthorName(): string {
@@ -157,5 +186,4 @@ export class FormComponent implements OnChanges {
     if (book === undefined) return "отсутствует";
     return getFullName(book.author);
   }
-
 }

@@ -11,8 +11,7 @@
       (bookSelected)="onBookSelected($event)"
     ></app-shelf>
   </div>
-  <div>
-    <app-sort (sort)="onSort($event)"></app-sort>
+  <div class="app-forms">
     <app-form
       (bookDeleteEvent)="onBookDelete($event)"
       (bookEvent)="onBook($event)"
@@ -20,5 +19,6 @@
       [props]="{ book: selectedBook, authors: authors }"
     >
     </app-form>
+    <app-sort (sort)="onSort($event)"></app-sort>
   </div>
 </ng-template>

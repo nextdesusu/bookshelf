@@ -12,6 +12,9 @@ export interface bookTemplate {
   title: string;
   written: string;
   pages: number;
+  texture?: string;
+  shiftColor?: string;
+  color?: string;
 }
 
 export interface bookProperties extends bookTemplate {
@@ -30,8 +33,8 @@ export type Shelf = Book[];
 export type serializedShelf = BookSerialized[];
 
 export interface request {
-  books: serializedShelf;
-  authors: Author[];
+  readonly books: serializedShelf;
+  readonly authors: Author[];
 }
 
 export interface bookSelectedEvent {
@@ -39,15 +42,15 @@ export interface bookSelectedEvent {
 }
 
 export interface bookSelectedAnimationEvent extends bookSelectedEvent {
-  animationFinished: boolean;
+  readonly animationFinished: boolean;
 }
 
 export type sortDirection = "ascending" | "descending";
 export type sorter = "none" | "title" | "author";
 
 export interface sortEvent {
-  direction: sortDirection;
-  sortBy: sorter;
+  readonly direction: sortDirection;
+  readonly sortBy: sorter;
 }
 
 interface formEvent {

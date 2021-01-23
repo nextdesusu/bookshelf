@@ -10,9 +10,16 @@
   grid-template-columns: repeat(7, 80px);
   grid-template-rows: fit-content(270px);
   grid-gap: 5px;
-  background-image: url("../../assets/shelf-background.jpg");
+  background-color: #704F35;
   background-size: auto;
   border: 20px solid black;
   border-image: url("../../assets/shelf-outer.jpg") 20 round round;
   box-shadow: inset 10px 10px 10px rgb(88, 44, 2);
+}
+
+@media only screen and (max-width: 800px) {
+  .shelf-books {
+    grid-template-columns: repeat(4, 80px);
+    width: 340px;
+  }
 }
