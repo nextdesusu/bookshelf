@@ -48,6 +48,15 @@ import { Book, bookSelectedAnimationEvent } from "../../types";
             borderRadius: "0 0 3em 0"
           })
         ]))
+      ]),
+      transition('void => selected', [
+        animate('0.4s', keyframes([
+          style({
+            width: "80px",
+            borderRight: "100px solid #121212",
+            borderRadius: "0 0 3em 0"
+          })
+        ]))
       ])
     ])
   ]
@@ -82,8 +91,6 @@ export class BookComponent implements OnChanges {
   }
 
   public onAnimationEnd(ev: AnimationEvent): void {
-    //fix animation
-    console.log("fired", ev);
     if (ev.toState === "selected" || ev.toState === "unselected") {
       this.animationsState = ev.toState;
       this.changeDetector.detectChanges();
