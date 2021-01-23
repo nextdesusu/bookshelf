@@ -4,7 +4,7 @@
   [@selectedUnselected]="props.selected ? 'selected' : 'unselected'"
   (@selectedUnselected.done)="onAnimationEnd($event)"
 >
-  <ng-template [ngIf]="unselected" [ngIfElse]="selected">
+  <ng-template [ngIf]="animationsState === 'unselected'" [ngIfElse]="selected">
     <div class="book-wrapper-unselected">
       <h5 class="book-title">{{ title }}</h5>
       <h6 class="book-author">{{ author }}</h6>

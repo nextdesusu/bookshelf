@@ -1,4 +1,4 @@
-import { Author, BookSerialized, request } from "./types";
+import { Author, BookSerialized, request, Shelf, sortDirection, Book } from "./types";
 
 let randomAuthorId = 0;
 let randomBookId = 0;
@@ -74,4 +74,33 @@ export const getFullName = (author: Author): string => {
   const { lastName, firstName, patronym } = author;
   const patronymOrEmpty = `${patronym ? patronym : ""}`;
   return `${lastName} ${firstName} ${patronymOrEmpty}`;
+}
+
+const compareStrings = (s1: string, s2: string): number => {
+  const length = Math.min(s1.length, s2.length);
+  for (let index = 0; index < length; index += 1) {
+    const i1 = s1.charCodeAt(index);
+    const i2 = s2.charCodeAt(index);
+    if (i1 !== i2) return i1 - i2;
+  }
+  return s1.length > s2.length ? 1 : -1;
+}
+
+const ascendingString = (s1: string, s2: string) => compareStrings(s1, s2);
+const descendingString = (s1: string, s2: string) => compareStrings(s2, s1);
+
+export const sortByTitle = (data: Shelf, sDirection: sortDirection): Shelf => {
+  const value = data.slice();
+  const comparer = sDirection === "ascending" ? ascendingString : descendingString;
+  value.sort((a: Book, b: Book) => comparer(a.title, b.title));
+  return value;
+}
+
+export const sortByAuthor = (data: Shelf, sDirection: sortDirection): Shelf => {
+  const value = data.slice();
+  const comparer = sDirection === "ascending" ? ascendingString : descendingString;
+  value.sort((a: Book, b: Book) => comparer(
+    getFullName(a.author), getFullName(b.author)
+  ));
+  return value;
 }

@@ -1,4 +1,3 @@
-import { NONE_TYPE } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import {
   serializedShelf,
@@ -10,13 +9,14 @@ import {
   request,
   sortEvent,
   sortDirection,
+  sorter,
   authorTemplate,
   bookTemplate,
   authorEvent,
   bookEvent,
   bookDeleteEvent,
 } from "../types";
-import { fakeRequest } from "../utility";
+import { fakeRequest, sortByAuthor, sortByTitle } from "../utility";
 
 @Component({
   selector: 'app-root',
@@ -25,9 +25,11 @@ import { fakeRequest } from "../utility";
 })
 export class AppComponent implements OnInit {
   private selectedBook: Book;
-  private inAnimation: boolean = false;
-  public authors: Map<string, Author> = new Map();
   private data: Shelf = [];
+  private sDirection: sortDirection = "ascending";
+  private sSorter: sorter = "none";
+
+  public authors: Map<string, Author> = new Map();
   public books: Shelf = [];
 
   public get loaded(): boolean {
@@ -56,24 +58,22 @@ export class AppComponent implements OnInit {
   }
 
   public onBookSelected(event: bookSelectedEvent): void {
-    if (this.inAnimation && !event.animationFinished) return;
-    if (event.animationStart && this.selectedBook !== event.item) {
-      this.inAnimation = true;
-      this.selectedBook = event.item;
-      return;
-    };
-    if (event.animationStart && this.selectedBook === event.item) {
-      this.inAnimation = true;
+    if (this.selectedBook === event.item) {
       this.selectedBook = undefined;
-      return;
-    }
-    if (event.animationFinished) {
-      this.inAnimation = false;
+    } else {
+      this.selectedBook = event.item;
     }
   }
 
   public onSort(event: sortEvent) {
-    console.log("sort", event);
+    this.selectedBook = undefined;
+    const {
+      direction,
+      sortBy
+    } = event;
+    this.sDirection = direction;
+    this.sSorter = sortBy;
+    this.handleData();
   }
 
   public onAuthor(ev: authorEvent) {
@@ -114,7 +114,18 @@ export class AppComponent implements OnInit {
   }
 
   private handleData(): void {
-    this.books = this.data;
+    let data: null | Shelf = null;
+    switch (this.sSorter) {
+      case "none":
+        data = this.data;
+        break;
+      case "title":
+        data = sortByTitle(this.data, this.sDirection);
+        break;
+      case "author":
+        data = sortByAuthor(this.data, this.sDirection);
+    }
+    this.books = data;
   }
 
   private findBookIndexById(id: string): number {

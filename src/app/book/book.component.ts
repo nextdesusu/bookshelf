@@ -18,7 +18,7 @@ import {
   keyframes
 } from '@angular/animations';
 import { getFullName } from "../../utility";
-import { Book, bookSelectedEvent } from "../../types";
+import { Book, bookSelectedAnimationEvent } from "../../types";
 
 @Component({
   selector: 'app-book',
@@ -28,13 +28,10 @@ import { Book, bookSelectedEvent } from "../../types";
     trigger('selectedUnselected', [
       state('unselected', style({
         width: "100%",
-        height: "250px",
         borderRight: "2px solid rgba(192, 192, 192, 0.658)",
-        zIndex: "1"
       })),
       state('selected', style({
         width: "270%",
-        height: "250px",
         borderRight: "5px solid rgba(192, 192, 192, 0.658)",
       })),
       transition('selected => unselected', [
@@ -60,49 +57,57 @@ export class BookComponent implements OnChanges {
     bookData: Book;
     selected: boolean;
   }
-  @Output() select: EventEmitter<bookSelectedEvent> = new EventEmitter<bookSelectedEvent>();
+  @Output() select = new EventEmitter<bookSelectedAnimationEvent>();
   @HostBinding("class.selected") classSelected: boolean = false;
   constructor(private changeDetector: ChangeDetectorRef) { }
   public animationsState: string = "unselected";
+  public title: string = "";
+  public author: string = "";
+  public written: string = "";
+  public pages: number = 0;
 
-  onClick(): void {
-    this.select.emit({ item: this.props.bookData, animationStart: true, animationFinished: false });
+
+  public onClick(): void {
+    this.select.emit({ item: this.props.bookData, animationFinished: false });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     const { selected } = changes.props.currentValue;
     this.classSelected = selected;
+
+    this.title = this.bookTitle;
+    this.author = this.bookAuthor;
+    this.written = this.bookWritten;
+    this.pages = this.bookPages;
   }
 
-  onAnimationEnd(ev: AnimationEvent): void {
-    if (ev.fromState === "void") return;
-    this.animationsState = ev.toState;
-    this.select.emit({ item: this.props.bookData, animationStart: false, animationFinished: true });
-    this.changeDetector.detectChanges();
+  public onAnimationEnd(ev: AnimationEvent): void {
+    //fix animation
+    console.log("fired", ev);
+    if (ev.toState === "selected" || ev.toState === "unselected") {
+      this.animationsState = ev.toState;
+      this.changeDetector.detectChanges();
+    }
   }
 
-  get title(): string {
+  private get bookTitle(): string {
     const { title } = this.props.bookData;
     const first = title.charAt(0).toUpperCase();
     const rest = title.slice(1);
     return first + rest;
   }
 
-  get author(): string {
+  private get bookAuthor(): string {
     return getFullName(this.props.bookData.author);
   }
 
-  get pages(): number {
+  private get bookPages(): number {
     return this.props.bookData.pages;
   }
 
-  get written(): string {
+  private get bookWritten(): string {
     const { written } = this.props.bookData;
     const postfix: string = written.includes("-") ? "годах" : "году";
     return `в ${written}  ${postfix}`;
-  }
-
-  get unselected(): boolean {
-    return this.animationsState === 'unselected';
   }
 }

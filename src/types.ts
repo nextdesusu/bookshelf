@@ -36,7 +36,9 @@ export interface request {
 
 export interface bookSelectedEvent {
   readonly item: Book;
-  animationStart: boolean;
+}
+
+export interface bookSelectedAnimationEvent extends bookSelectedEvent {
   animationFinished: boolean;
 }
 
