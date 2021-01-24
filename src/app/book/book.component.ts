@@ -14,7 +14,6 @@ import {
   style,
   animate,
   transition,
-  AnimationEvent,
   keyframes
 } from '@angular/animations';
 import { getFullName } from "../../utility";
@@ -25,10 +24,9 @@ import { Book, bookSelectedAnimationEvent } from "../../types";
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.css'],
   animations: [
-    trigger('selectedUnselected', [
+    trigger('selectedUnselectedMain', [
       state('unselected', style({
-        width: "100%",
-        borderRight: "2px solid rgba(192, 192, 192, 0.658)",
+        width: "80px",
       })),
       state('selected', style({
         width: "270%",
@@ -44,7 +42,7 @@ import { Book, bookSelectedAnimationEvent } from "../../types";
         animate('0.4s', keyframes([
           style({
             color: "rgba(0, 0, 0, 0)",
-            borderRight: "100px solid #121212",
+            borderRight: "100px solid black",
             borderRadius: "0 0 3em 0"
           })
         ]))
@@ -53,7 +51,7 @@ import { Book, bookSelectedAnimationEvent } from "../../types";
         animate('0.4s', keyframes([
           style({
             width: "80px",
-            borderRight: "100px solid #121212",
+            borderRight: "100px solid black",
             borderRadius: "0 0 3em 0"
           })
         ]))
@@ -69,7 +67,6 @@ export class BookComponent implements OnChanges {
   @Output() select = new EventEmitter<bookSelectedAnimationEvent>();
   @HostBinding("class.selected") classSelected: boolean = false;
   constructor(private changeDetector: ChangeDetectorRef) { }
-  public animationsState: string = "unselected";
   public title: string = "";
   public author: string = "";
   public written: string = "";
@@ -88,13 +85,6 @@ export class BookComponent implements OnChanges {
     this.author = this.bookAuthor;
     this.written = this.bookWritten;
     this.pages = this.bookPages;
-  }
-
-  public onAnimationEnd(ev: AnimationEvent): void {
-    if (ev.toState === "selected" || ev.toState === "unselected") {
-      this.animationsState = ev.toState;
-      this.changeDetector.detectChanges();
-    }
   }
 
   private get bookTitle(): string {

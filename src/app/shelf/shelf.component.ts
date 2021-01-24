@@ -18,6 +18,6 @@ export class ShelfComponent {
   }
 
   public onSelect(event: bookSelectedAnimationEvent): void {
-    this.bookSelected.emit({item: event.item});
+    this.bookSelected.emit({ item: event.item });
   }
 }

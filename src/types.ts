@@ -70,3 +70,5 @@ export interface bookEvent extends formEvent {
 export interface bookDeleteEvent {
   readonly id: string;
 }
+
+export type ValidatorFnReturnValue = { [key: string]: any } | null;

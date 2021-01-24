@@ -5,12 +5,12 @@
   color: rgb(8, 8, 133);
   height: 90vh;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: #301E15;
+  color: #301e15;
 }
 
 :host > form {
   display: grid;
-  grid-gap: .5em;
+  grid-gap: 0.5em;
   height: 80vh;
   padding: 1em;
   height: 78vh;
@@ -33,7 +33,7 @@
 .form-input {
   display: grid;
   grid-template-rows: 30% 60%;
-  grid-gap: .6em;
+  grid-gap: 0.6em;
 }
 
 .form-input > label {
@@ -41,40 +41,50 @@
   padding: 0;
 }
 
-.form-input > input, .form-input > select, .form-submit, .form-swap {
+.form-input > input,
+.form-input > select,
+.form-submit,
+.form-swap {
   border-radius: 1em 0 1em 0;
-  border: none;
   box-shadow: 1px 1px 10px rgb(10, 9, 9);
   padding: 1em;
-  transition: box-shadow .4s linear;
-  background-color: #301E15;
-  color: white
+  transition: box-shadow 0.4s linear;
+  background-color: #301e15;
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0);
 }
 
-.form-input > select, .form-submit, .form-swap {
+.form-input > select,
+.form-submit,
+.form-swap {
   cursor: pointer;
 }
 
-.form-input > select, .form-input > select > option {
+.form-input > select,
+.form-input > select > option {
   text-transform: capitalize;
 }
 
 .form-buttons-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: .5em;
+  grid-gap: 0.5em;
+  height: 4em;
+  align-self: flex-end;
 }
 
-.form-submit, .form-swap {
+.form-submit,
+.form-swap {
   background-color: #301e15be;
-  font-size: .8em;
+  font-size: 0.8em;
   font-weight: bold;
   text-transform: capitalize;
   color: white;
   border-radius: 0;
 }
 
-.form-input > input:hover, .form-input > select:hover {
+.form-input > input:hover,
+.form-input > select:hover {
   box-shadow: 3px 3px 10px rgb(10, 9, 9);
 }
 
@@ -87,31 +97,35 @@
   border-radius: 1em 0 0 0;
 }
 
-.form-input > input.ng-invalid, .form-input > select.ng-invalid {
+.form-input > input.ng-invalid,
+.form-input > select.ng-invalid {
   border: 1px solid rgba(196, 5, 5, 0.849);
+  box-shadow: 1px 1px 15px red;
 }
 
-.form-confirm-header, .form-confirm-title {
+.form-confirm-header,
+.form-confirm-title {
   font-size: 2em;
   text-align: center;
 }
 
 .form-confirm-header {
-  color:rgba(196, 5, 5, 0.849);
+  color: rgba(196, 5, 5, 0.849);
 }
 
 .form-confirm-title {
   text-transform: capitalize;
 }
 
-.form-confirm-back, .form-confirm-submit {
+.form-confirm-back,
+.form-confirm-submit {
   background-color: #301e158e;
   border: none;
-  border-radius: .3em;
+  border-radius: 0.3em;
   text-transform: capitalize;
   font-size: 1em;
   font-weight: bold;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
   cursor: pointer;
 }
 

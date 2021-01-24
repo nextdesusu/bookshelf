@@ -1,6 +1,5 @@
 :host {
   z-index: 1;
-  height: 270px;
 }
 
 :host(.selected) {
@@ -10,7 +9,7 @@
 @keyframes captionAppereance {
   0% {
     opacity: 0;
-    font-size: .8em;
+    font-size: 0.8em;
     left: 0px;
   }
   50% {
@@ -36,7 +35,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(2, 8, 2);
   box-shadow: 1px 10px 30px black;
   cursor: pointer;
   border-radius: 0 5px 5px 0;
@@ -45,6 +43,9 @@
 
   background-image: url("../../assets/book-default.jpg");
   height: 260px !important;
+
+  border-left: 3px solid rgba(196, 167, 4, 0.808);
+  border-right: 3px solid rgba(170, 145, 3, 0.87);
 }
 
 .book-wrapper-unselected {

@@ -21,17 +21,17 @@ export class SortComponent {
     });
   }
 
-  onClick(): void {
+  public onClick(): void {
     const newValue: sortDirection = this.direction === "ascending" ? "descending" : "ascending";
     this.direction = newValue;
     this.emit();
   }
 
-  get sortSign(): string {
+  public get sortSign(): string {
     return this.direction === "ascending" ? "↑" : "↓";
   }
 
-  onChange(event: Event): void {
+  public onChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     switch (target.value) {
       case "0":

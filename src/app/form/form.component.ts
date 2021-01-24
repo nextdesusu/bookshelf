@@ -6,31 +6,9 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { getFullName } from "../../utility";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { getFullName, forbiddenValue, writtenValidator, pagesValidator } from "../../utility";
 import { Book, Author, authorTemplate, bookTemplate, authorEvent, bookEvent, bookDeleteEvent } from "../../types";
-
-type ValidatorFnReturnValue = { [key: string]: any } | null;
-
-const forbiddenValue = (nameRe: RegExp): ValidatorFn => {
-  return (control: AbstractControl): ValidatorFnReturnValue => {
-    const forbidden = nameRe.test(control.value);
-    return forbidden ? { forbiddenName: { value: control.value } } : null;
-  };
-}
-
-const writtenRe = /[0-9]{1,}-{0,1}[0-9]{0,}/;
-const writtenValidator = (control: AbstractControl): ValidatorFnReturnValue => {
-  const forbidden = !writtenRe.test(control.value);
-  return forbidden ? { forbiddenName: { value: control.value } } : null;
-}
-
-const pagesRe = /[1-9]{1,}/;
-const minusRe = /-{1,}/;
-const pagesValidator = (control: AbstractControl): ValidatorFnReturnValue => {
-  const forbidden = !pagesRe.test(control.value) || minusRe.test(control.value);
-  return forbidden ? { forbiddenName: { value: control.value } } : null;
-}
 
 const formsDefault = {
   author: {
@@ -109,6 +87,7 @@ export class FormComponent implements OnChanges {
   }
 
   public onSubmit() {
+    const bookSelected = this.props.book !== undefined;
     if (this.state === "book") {
       if (this.bookForm.status !== "VALID") return;
       const {
@@ -122,20 +101,12 @@ export class FormComponent implements OnChanges {
         written,
         pages
       };
-      if (!this.props.book) {
-        this.bookEvent.emit({
-          new: true,
-          item: book,
-          authorId: author
-        })
-      } else {
-        this.bookEvent.emit({
-          new: false,
-          item: book,
-          change: this.props.book.id,
-          authorId: author
-        })
-      }
+      this.bookEvent.emit({
+        new: !bookSelected,
+        item: book,
+        change: bookSelected ? this.props.book.id : undefined,
+        authorId: author
+      })
     } else {
       if (this.authorForm.status !== "VALID") return;
       const {
@@ -148,19 +119,13 @@ export class FormComponent implements OnChanges {
         lastName,
         patronym
       };
-      if (!this.props.book) {
-        this.authorEvent.emit({
-          new: true,
-          item: author,
-        })
-        this.updateAuthorsList();
-      } else {
-        this.authorEvent.emit({
-          new: false,
-          item: author,
-          change: this.props.book.author.id
-        })
-      }
+      this.authorEvent.emit({
+        new: !bookSelected,
+        item: author,
+        change: bookSelected ? this.props.book.author.id : undefined
+      })
+      this.updateAuthorsList();
+      this.toBookForm();
     }
   }
 

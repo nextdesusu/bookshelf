@@ -1,4 +1,5 @@
-import { Author, BookSerialized, request, Shelf, sortDirection, Book } from "./types";
+import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { Author, BookSerialized, request, Shelf, sortDirection, Book, ValidatorFnReturnValue } from "./types";
 
 let randomAuthorId = 0;
 let randomBookId = 0;
@@ -103,4 +104,23 @@ export const sortByAuthor = (data: Shelf, sDirection: sortDirection): Shelf => {
     getFullName(a.author), getFullName(b.author)
   ));
   return value;
+}
+
+export const forbiddenValue = (nameRe: RegExp): ValidatorFn => {
+  return (control: AbstractControl): ValidatorFnReturnValue => {
+    const forbidden = nameRe.test(control.value);
+    return forbidden ? { forbiddenName: { value: control.value } } : null;
+  };
+}
+
+const writtenRe = /[0-9]{1,}-{0,1}[0-9]{0,}/;
+export const writtenValidator = (control: AbstractControl): ValidatorFnReturnValue => {
+  const forbidden = !writtenRe.test(control.value);
+  return forbidden ? { forbiddenName: { value: control.value } } : null;
+}
+
+const pagesRe = /^[1-9]\d*$/;
+export const pagesValidator = (control: AbstractControl): ValidatorFnReturnValue => {
+  const forbidden = !pagesRe.test(control.value);
+  return forbidden ? { forbiddenName: { value: control.value } } : null;
 }

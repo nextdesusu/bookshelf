@@ -10,7 +10,7 @@
   grid-template-columns: repeat(7, 80px);
   grid-template-rows: fit-content(270px);
   grid-gap: 5px;
-  background-color: #704F35;
+  background-color: #704f35;
   background-size: auto;
   border: 20px solid black;
   border-image: url("../../assets/shelf-outer.jpg") 20 round round;
